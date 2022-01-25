@@ -1,0 +1,40 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% 
+%% (c) Markus Pabst 2022
+%%
+%% This program can be redistributed and/or modified under the terms
+%% of the LaTeX Project Public License Distributed from CTAN archives
+%% in directory macros/latex/base/lppl.txt.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+
+%% !Note: You have install mermaid.cli -->  http//:github.com/mermaid-js/mermaid-cli#Install-globally
+%% !Note: You have add to pdflatex --shell-escape command
+
+
+\NeedsTeXFormat{LaTeX2e}[1994/06/01]
+\ProvidesPackage{marmermaidtex}
+  [2022-01-24 v0.01 LaTeX package for my own purpose]
+\RequirePackage{ifpdf}
+\RequirePackage{graphicx}
+
+\newenvironment{marmermaidtex}[2][]{
+		\def\@graphicsopts{#1}
+		\def\tempFilenameMermaidPdf{#2}
+		%%% https://tex.stackexchange.com/questions/130294/filecontents-and-newenvironment-issue
+		%%% save code to file
+		\csname filecontents*\endcsname[overwrite]{\tempFilenameMermaidPdf.tmp}		
+	}
+	{
+		\csname endfilecontents*\endcsname
+		\ifpdf
+			\immediate\write18{mmdc -i \tempFilenameMermaidPdf.tmp -f -o \tempFilenameMermaidPdf}
+		\else
+		  \errmessage{Good. You aren't using pdflatex}
+		\fi
+		%%% https://tex.stackexchange.com/questions/79494/keyval-error-with-includegraphics-options-undefined
+		\expandafter\includegraphics\expandafter[\@graphicsopts]{\tempFilenameMermaidPdf}
+	}
+
+\endinput
+%%
+%% End of file `marmermaidtex.sty'.
