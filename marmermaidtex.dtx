@@ -140,17 +140,6 @@
 %   \begin{macrocode}
 		\csname endfilecontents*\endcsname
 %    \end{macrocode}
-% check if pftlatex is in use
-%   \begin{macrocode}
-		\ifpdf
-%    \end{macrocode}
-% call node mmdc 
-%   \begin{macrocode}
-			\immediate\write18{mmdc -i \tempFilenameMermaidPdf.tmp -f -o \tempFilenameMermaidPdf}
-		\else
-		  \errmessage{ You aren't using pdflatex}
-		\fi
-%    \end{macrocode}
 % include generated image to tex file
 %   \begin{macrocode}
 		\expandafter\includegraphics\expandafter[\@graphicsopts]{\tempFilenameMermaidPdf}
