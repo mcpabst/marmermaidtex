@@ -9,7 +9,7 @@ Latex package to use mermaid code https://mermaid-js.github.io/mermaid/#/ is lat
 - tested only on windows yet
 
 ## Preconditions ##
-1. Install mermaid.cli ( >8.13.10) http://github.com/mermaid-js/mermaid-cli\#Install-globally
+1. Install mermaid.cli ( >8.13.10) http://github.com/mermaid-js/mermaid-cli#Install-globally
 For instance with: ```npm install -g @mermaid-js/mermaid-cli```  
 
 
