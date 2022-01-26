@@ -22,19 +22,19 @@
 %<package>\NeedsTeXFormat{LaTeX2e}[2005/12/01]
 %<package>\ProvidesPackage{skeleton}
 %<*package>
-    [2022-01-24 v0.01 .dtx marmermaidtex file]
+    [2022-01-26 v0.2 .dtx marmermaidtex file]
 %</package>
 %
 %<*driver>
 \documentclass{ltxdoc}
-\usepackage{marmermaidtex}
+\usepackage{marmermaidtex}[2022-01-26]
 \EnableCrossrefs         
 \CodelineIndex
 \RecordChanges
 \begin{document}
   \DocInput{marmermaidtex.dtx}
   \PrintChanges
-  %\PrintIndex
+  \PrintIndex
 \end{document}
 %</driver>
 % \fi
@@ -58,7 +58,8 @@
 %   Right brace   \}     Tilde         \~}
 %
 %
-%\changes{v0.01}{2022-01-25}{Initial version}
+\changes{v0.1}{2022-01-25}{Initial version}
+\changes{v0.2}{2022-01-26}{Fix for xelatex}
 %
 % \GetFileInfo{marmermaidtex.dtx}
 %

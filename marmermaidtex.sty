@@ -13,10 +13,22 @@
 
 \NeedsTeXFormat{LaTeX2e}[1994/06/01]
 \ProvidesPackage{marmermaidtex}
-  [2022-01-24 v0.01 LaTeX package for my own purpose]
+  [2022-01-26 v0.2 LaTeX package for include mermaid graphics in latex]
+\RequirePackage{iftex}
 \RequirePackage{ifpdf}
+\RequirePackage{ifthen}
 \RequirePackage{graphicx}
 
+\newboolean{correctTool}   
+\setboolean{correctTool}{false} 
+\ifXeTeX
+	\setboolean{correctTool}{true} 
+\fi
+\ifpdf
+	\setboolean{correctTool}{true} 
+\fi
+
+\ifthenelse{\boolean{correctTool}}{}{\errmessage{You aren't using pdflatex, Xetex, Luatex}} 
 \newenvironment{marmermaidtex}[2][]{
 		\def\@graphicsopts{#1}
 		\def\tempFilenameMermaidPdf{#2}
@@ -26,11 +38,8 @@
 	}
 	{
 		\csname endfilecontents*\endcsname
-		\ifpdf
-			\immediate\write18{mmdc -i \tempFilenameMermaidPdf.tmp -f -o \tempFilenameMermaidPdf}
-		\else
-		  \errmessage{Good. You aren't using pdflatex}
-		\fi
+		\immediate\write18{mmdc -i \tempFilenameMermaidPdf.tmp -f -o \tempFilenameMermaidPdf}
+			
 		%%% https://tex.stackexchange.com/questions/79494/keyval-error-with-includegraphics-options-undefined
 		\expandafter\includegraphics\expandafter[\@graphicsopts]{\tempFilenameMermaidPdf}
 	}
