@@ -74,24 +74,25 @@
 %\section{Introduction} 
 % 
 %\begin{quote}
-%Mermaid lets you create diagrams and visualizations using text and code. It is a Javascript based diagramming and charting tool that renders Markdown-inspired text definitions to create and modify diagrams dynamically.
+%Mermaid is a Javascript based diagramming and charting tool that uses Markdown-inspired text definitions and a renderer to create and modify complex diagrams.
 %\end{quote}
 %There is no implemation for using mermaid files in latex. So I decide to try it with this package.
 %\section{Preconditions}
 %\begin{enumerate}
-	%\item Install mermaid.cli \url{http//:github.com/mermaid-js/mermaid-cli\#Install-globally}
-  %\item You have add to pdflatex \textbf{ --shell-escape} command.
+	%\item Install mermaid.cli \url{http://github.com/mermaid-js/mermaid-cli\#Install-globally}
+  %For instance: \verb|npm install -g mermaid.cli|
+	%\item pdflatex available with command line parameter: \verb|--shell-escape|.
 %\end{enumerate}
  
 % \section{Usage}
-
+% \subsection{\LaTeX\ minimal example}
 %\DescribeEnv{marmermaidtex}
 
 \begin{verbatim}
+		\documentclass[]{article}
 		\usepackage{marmermaidtex}
-    
 		\begin{document}
-		\begin{marmermaidtex}[width=.5\textwidth]{foo1.pdf}
+		\begin{marmermaidtex}[width=.25\textwidth]{foo1.pdf}
        graph TD
          A[Christmas] -->|Get money| B(Go shopping)
          B --> C{Let me think}
@@ -100,10 +101,8 @@
          C -->|Three| F[fa:fa-
 		\end{marmermaidtex}
 		\end{document}
-	
-		
 \end{verbatim}
-\begin{marmermaidtex}[width=.5\textwidth]{foo1.pdf}
+\begin{marmermaidtex}[width=.25\textwidth]{foo1.pdf}
        graph TD
          A[Christmas] -->|Get money| B(Go shopping)
          B --> C{Let me think}
@@ -114,7 +113,7 @@
 
 
 \StopEventually{}
-%
+
 \section{Implementation}
 
 \begin{environment}{marmermaidtex}
