@@ -78,10 +78,10 @@
 %Mermaid is a Javascript based diagramming and charting tool that uses Markdown-inspired text definitions and a renderer to create and modify complex diagrams.
 %\end{quote}
 %There is no implemation for using mermaid files in latex. So I decide to try it with this package.
-%\section{Preconditions}
+\section{Preconditions}
 %\begin{enumerate}
-	%\item Install mermaid.cli \url{http://github.com/mermaid-js/mermaid-cli\#Install-globally}
-  %For instance: \verb|npm install -g mermaid.cli|
+	%\item Install mermaid.cli (higher than 8.13.10)\\ \url{http://github.com/mermaid-js/mermaid-cli\#Install-globally}\\
+  %For instance with: \verb|npm install -g @mermaid-js/mermaid-cli|
 	%\item pdflatex available with command line parameter: \verb|--shell-escape|.
 %\end{enumerate}
  
@@ -99,7 +99,7 @@
          B --> C{Let me think}
          C -->|One| D[Laptop]
          C -->|Two| E[iPhone]
-         C -->|Three| F[fa:fa-
+         C -->|Three| F[fa:fa]
 		\end{marmermaidtex}
 		\end{document}
 \end{verbatim}
