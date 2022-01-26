@@ -1,0 +1,10 @@
+*.tmp
+*.aux
+*.bbl
+*.blg
+*.glo
+*.gls
+*.idx
+*.ilg
+*.log
+foo1.pdf
