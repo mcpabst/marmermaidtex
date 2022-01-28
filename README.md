@@ -7,7 +7,7 @@ Latex package to use mermaid code https://mermaid-js.github.io/mermaid/#/ is lat
 ## Status ##
 - first version only for pdf latex 
 - tested only on windows yet
-Packet options: noOverwrite and noWarningOverwrite
+- Packet options: noOverwrite and noWarningOverwrite
 
 ## Preconditions ##
 1. Install mermaid.cli ( >8.13.10) http://github.com/mermaid-js/mermaid-cli#Install-globally
