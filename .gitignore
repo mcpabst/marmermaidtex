@@ -8,3 +8,6 @@
 *.ilg
 *.log
 foo1.pdf
+*.ind
+*.toc
+foo2.pdf

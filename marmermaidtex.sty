@@ -10,14 +10,37 @@
 %% !Note: You have install mermaid.cli -->  http//:github.com/mermaid-js/mermaid-cli#Install-globally
 %% !Note: You have add to pdflatex --shell-escape command
 
-
 \NeedsTeXFormat{LaTeX2e}[1994/06/01]
 \ProvidesPackage{marmermaidtex}
-  [2022-01-26 v0.2 LaTeX package for include mermaid graphics in latex]
-\RequirePackage{iftex}
-\RequirePackage{ifpdf}
-\RequirePackage{ifthen}
-\RequirePackage{graphicx}
+  [2022-01-28 v0.03 LaTeX package for include mermaid graphics in latex]
+\RequirePackage{
+	ifthen,
+	xkeyval,
+	silence,
+	iftex,
+	ifpdf,
+	graphicx
+}
+
+\newboolean{noOverwrite}
+\setboolean{noOverwrite}{false} 
+
+\newboolean{noWarningOverwrite}
+\setboolean{noWarningOverwrite}{false} 
+
+\DeclareOptionX{noOverwrite}{
+	\setboolean{noOverwrite}{true} 
+}
+
+\DeclareOptionX{noWarningOverwrite}{
+	\setboolean{noWarningOverwrite}{true} 
+}
+\ProcessOptionsX
+
+\ifthenelse{\NOT\boolean{noOverwrite} \AND \boolean{noWarningOverwrite}}{
+		\PackageWarning{marmermaidtex}{All warnings for overwrite files a switch off now.}{}
+		\WarningFilter{latex}{Writing or overwriting file}
+}
 
 \newboolean{correctTool}   
 \setboolean{correctTool}{false} 
@@ -28,19 +51,21 @@
 	\setboolean{correctTool}{true} 
 \fi
 
-\ifthenelse{\boolean{correctTool}}{}{\errmessage{You aren't using pdflatex, Xetex, Luatex}} 
+\ifthenelse{\boolean{correctTool}}{}{\PackageError{marmermaidtex}{You aren't using pdflatex, Xetex, Luatex}{}} 
 \newenvironment{marmermaidtex}[2][]{
 		\def\@graphicsopts{#1}
 		\def\tempFilenameMermaidPdf{#2}
-		%%% https://tex.stackexchange.com/questions/130294/filecontents-and-newenvironment-issue
-		%%% save code to file
-		\csname filecontents*\endcsname[overwrite]{\tempFilenameMermaidPdf.tmp}		
+	
+		\ifthenelse{\boolean{noOverwrite}}{
+			\csname filecontents*\endcsname[]{\tempFilenameMermaidPdf.tmp}	
+		}{
+			\csname filecontents*\endcsname[overwrite]{\tempFilenameMermaidPdf.tmp}
+		}
 	}
 	{
 		\csname endfilecontents*\endcsname
-		\immediate\write18{mmdc -i \tempFilenameMermaidPdf.tmp -f -o \tempFilenameMermaidPdf}
+		\immediate\write18{mmdc -i \tempFilenameMermaidPdf.tmp -f -q -o \tempFilenameMermaidPdf}
 			
-		%%% https://tex.stackexchange.com/questions/79494/keyval-error-with-includegraphics-options-undefined
 		\expandafter\includegraphics\expandafter[\@graphicsopts]{\tempFilenameMermaidPdf}
 	}
 

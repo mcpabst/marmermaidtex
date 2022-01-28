@@ -22,12 +22,13 @@
 %<package>\NeedsTeXFormat{LaTeX2e}[2005/12/01]
 %<package>\ProvidesPackage{skeleton}
 %<*package>
-    [2022-01-26 v0.2 .dtx marmermaidtex file]
+    [2022-01-28 v0.3 .dtx marmermaidtex file]
 %</package>
 %
 %<*driver>
-\documentclass{ltxdoc}
+\documentclass[a4paper]{ltxdoc}
 \usepackage{marmermaidtex}[2022-01-26]
+\usepackage{listings,xcolor}
 \EnableCrossrefs         
 \CodelineIndex
 \RecordChanges
@@ -58,52 +59,90 @@
 %   Right brace   \}     Tilde         \~}
 %
 %
-\changes{v0.1}{2022-01-25}{Initial version}
-\changes{v0.2}{2022-01-26}{Fix for xelatex}
+%\changes{v0.1}{2022-01-25}{Initial version}
+%\changes{v0.2}{2022-01-26}{Fix for xelatex}
+%\changes{v0.3}{2022-01-28}{Add package options: {\itshape noOverwrite} and {\itshape noWarningOverwrite}}
+
+% \def\vbopt#1{\noindent\llap{\scriptsize{#1}\enspace}\ignorespaces} 
+% \def\vbskip{\vskip.5em\noindent}
+
+%\lstnewenvironment{command}{%
+  %\lstset{columns=flexible,frame=single,backgroundcolor=\color{blue!20},%
+    %xleftmargin=\fboxsep,xrightmargin=\fboxsep,escapeinside=`',gobble=1}}{}
+%\lstnewenvironment{example}{%
+  %\lstset{basicstyle=\footnotesize\ttfamily,columns=flexible,frame=single,%
+    %backgroundcolor=\color{yellow!20},xleftmargin=\fboxsep,%
+    %xrightmargin=\fboxsep,gobble=1}}{}
 %
 % \GetFileInfo{marmermaidtex.dtx}
 %
 % \DoNotIndex{\newcommand,\newenvironment}
 % 
-%
-% \title{The \textsf{marmermaidtex} package\thanks{This document
-%   corresponds to \textsf{marmermaidtex}~\fileversion, dated \filedate.}}
-% \author{Markus Pabst \\ \texttt{}}
-%
+% \title{The \textsf{marmermaidtex} package}
+% \author{Markus Pabst} \date{\fileversion\ (\filedate)}
 % \maketitle
-%
-%\section{Introduction} 
-% 
+
+%\begin{abstract}\noindent
+
 %\begin{quote}
-%Mermaid is a Javascript based diagramming and charting tool that uses Markdown-inspired text definitions and a renderer to create and modify complex diagrams.
+%"Mermaid is a Javascript based diagramming and charting tool that uses Markdown-inspired text definitions and a renderer to create and modify complex diagrams."
 %\end{quote}
-%There is no implemation for using mermaid files in latex. So I decide to try it with this package.
-\section{Preconditions}
+%There was no implemation for using mermaid files in latex yet. So I decide to try it with this package.
+%\end{abstract}
+
+%\tableofcontents
+
+%\section{Preconditions}
 %\begin{enumerate}
 	%\item Install mermaid.cli (higher than 8.13.10)\\ \url{http://github.com/mermaid-js/mermaid-cli\#Install-globally}\\
   %For instance with: \verb|npm install -g @mermaid-js/mermaid-cli|
 	%\item pdflatex available with command line parameter: \verb|--shell-escape|.
 %\end{enumerate}
- 
+% \newpage
 % \section{Usage}
-% \subsection{\LaTeX\ minimal example}
-%\DescribeEnv{marmermaidtex}
+\begin{example}
+ \documentclass[]{article}
+ \usepackage{marmermaidtex}
+ \begin{document}
+ \begin{marmermaidtex}[width=.25\textwidth]{foo1.pdf}
+ graph TD
+  A[Christmas] -->|Get money| B(Go shopping)
+  B --> C{Let me think}
+  C -->|One| D[Laptop]
+  C -->|Two| E[iPhone]
+  C -->|Three| F[fa:fa]
+ \end{marmermaidtex}
+ \end{document}
+\end{example}
+%\subsection{Calling the Package}
+%The package may be called as any other package with:
+\begin{command}
+ \usepackage{marmermaidtex}
+\end{command}
 
-\begin{verbatim}
-		\documentclass[]{article}
-		\usepackage{marmermaidtex}
-		\begin{document}
-		\begin{marmermaidtex}[width=.25\textwidth]{foo1.pdf}
-       graph TD
-         A[Christmas] -->|Get money| B(Go shopping)
-         B --> C{Let me think}
-         C -->|One| D[Laptop]
-         C -->|Two| E[iPhone]
-         C -->|Three| F[fa:fa]
-		\end{marmermaidtex}
-		\end{document}
-\end{verbatim}
-\begin{marmermaidtex}[width=.25\textwidth]{foo1.pdf}
+or you call it with setting the option(s). Take a look in subsection: \ref{sec:package_options}
+
+\begin{command}
+ \usepackage[<options>]{marmermaidtex}
+\end{command}
+
+
+%\subsection{Commands / envieronments}
+
+%\DescribeEnv{marmermaidtex}
+\begin{example}
+ \begin{marmermaidtex}[width=.25\textwidth]{foo1.pdf}
+   graph TD
+     A[Christmas] -->|Get money| B(Go shopping)
+     B --> C{Let me think}
+     C -->|One| D[Laptop]
+     C -->|Two| E[iPhone]
+     C -->|Three| F[fa:fa]
+ \end{marmermaidtex}
+\end{example}
+
+\begin{center}
+ \begin{marmermaidtex}[width=.35\textwidth]{foo1.pdf}
        graph TD
          A[Christmas] -->|Get money| B(Go shopping)
          B --> C{Let me think}
@@ -111,11 +150,94 @@
          C -->|Two| E[iPhone]
          C -->|Three| F[fa:fa]
 \end{marmermaidtex}
-		
+\end{center}
+Marmermaidtex environment in combination with figure environment:
+\begin{example}
+ \begin{figure}
+  \center
+  \begin{marmermaidtex}[width=.25\textwidth]{foo2.pdf}
+   graph TD
+    A --> B
+    B --> C
+    C --> A
+  \end{marmermaidtex}
+  \caption{caption}
+  \label{fig:caption}
+ \end{figure}
+\end{example}
+
+
+%\subsection{Package options} \label{sec:package_options}
+%Here are the options that may be loaded with the package:
+%\vbskip
+%\vbopt{noOverwrite} As default, the marmermaidtex environment will overwrite the existing files. With \verb|noOverwrite| no overwriting will happen.
+%\vbskip
+%\vbopt{noWarningOverwrite} As default, the marmermaidtex environment will send a warning message for each file which is overwritten. With \verb|noWarningOverwrite| only one warning message will be sent:  \verb|"All warnings for overwrite files a switch off now."|
+
 \StopEventually{}
 
 \section{Implementation}
 
+%    \begin{macrocode}
+\RequirePackage{
+	ifthen,
+	xkeyval,
+	silence,
+	iftex,
+	ifpdf,
+	graphicx
+}
+%    \end{macrocode}
+define a new boolean called noOverwrite and set it to false
+%    \begin{macrocode}
+\newboolean{noOverwrite}
+\setboolean{noOverwrite}{false} 
+%    \end{macrocode}
+define a new boolean called noWarningOverwrite and set it to false
+%    \begin{macrocode}
+\newboolean{noWarningOverwrite}
+\setboolean{noWarningOverwrite}{false} 
+%    \end{macrocode}
+declare a new package option called noOverwrite 
+%    \begin{macrocode}
+\DeclareOptionX{noOverwrite}{
+	\setboolean{noOverwrite}{true} 
+}
+%    \end{macrocode}
+declare a new package option called noWarningOverwrite 
+%    \begin{macrocode}
+\DeclareOptionX{noWarningOverwrite}{
+	\setboolean{noWarningOverwrite}{true} 
+}
+%    \end{macrocode}
+
+%    \begin{macrocode}
+\ProcessOptionsX
+%    \end{macrocode}
+
+%    \begin{macrocode}
+\ifthenelse{\NOT\boolean{noOverwrite} \AND \boolean{noWarningOverwrite}}{
+		\PackageWarning{marmermaidtex}{All Warnings for overwrite files a switch off now.}{}
+		\WarningFilter{latex}{Writing or overwriting file}
+}%    \end{macrocode}
+define a new boolean called noWarningOverwrite and set it to false
+%    \begin{macrocode}
+\newboolean{correctTool}   
+\setboolean{correctTool}{false} 
+%    \end{macrocode}
+
+%    \begin{macrocode}
+\ifXeTeX
+	\setboolean{correctTool}{true} 
+\fi
+\ifpdf
+	\setboolean{correctTool}{true} 
+\fi
+%    \end{macrocode}
+
+%    \begin{macrocode}
+\ifthenelse{\boolean{correctTool}}{}{\PackageError{marmermaidtex}{You aren't using pdflatex, Xetex, Luatex}{}} 
+%    \end{macrocode}
 \begin{environment}{marmermaidtex}
 % Definition for a new enivornment and call it marmermaidtex.
 %    \begin{macrocode}
